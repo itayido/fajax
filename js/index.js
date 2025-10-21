@@ -67,7 +67,14 @@ function loadRegister() {
     e.preventDefault();
     const username = document.getElementById("reg-username").value.trim();
     const password = document.getElementById("reg-password").value;
+    const confirmPassword = document.getElementById(
+      "reg-confirmPassword"
+    ).value;
 
+    if (password !== confirmPassword) {
+      alert("password and confirm password aren't identical");
+      return;
+    }
     if (!/^[a-zA-Z0-9]{3,}$/.test(username)) {
       alert("Username must contain atleast 3 characters or numbers");
       return;
