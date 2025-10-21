@@ -2,14 +2,14 @@ function action(method, url) {
   switch (method) {
     case "GET":
       if (!url || typeof url !== "string") {
-        console.error("Invalid URL");
-        return;
+        return "Invalid URL";
       }
-      if (typeof url.charAt(url.length - 1)) {
-        //the url end with a number
-        getSpecificContact();
+
+      const idMatch = url.match(/\/(\d+)$/);
+      if (idMatch) {
+        const id = Number(idMatch[1]);
+        return getSpecificContact(id);
       }
-      getAllContacts();
-      break;
+      return getAllContacts();
   }
 }
