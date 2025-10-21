@@ -91,11 +91,11 @@ function loadRegister() {
       alert("Username already exists");
       return;
     }
-
-    const newUser = { username, password, contacts: [] };
+    let idNumber = JSON.parse(localStorage.getItem("users")).length;
+    const newUser = { username, password, contacts: [], id: idNumber };
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
-
+    idNumber++;
     alert("Registered successfully");
     location.hash = "login";
   });

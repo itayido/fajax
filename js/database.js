@@ -9,6 +9,16 @@ function getAllContacts() {
   return "contacts not found";
 }
 
+function getSpecificContact(id) {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const peopleArr = JSON.parse(localStorage.getItem("users"));
+  for (let j = 0; j < peopleArr.length; j++) {
+    if (peopleArr[j].username === currentUser.username) {
+      return peopleArr[j].contacts[i];
+    }
+  }
+}
+
 function addNewContact(name, phoneNumber, email) {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const users = JSON.parse(localStorage.getItem("users"));
