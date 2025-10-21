@@ -101,7 +101,7 @@ function loadRegister() {
   });
 }
 
-//game
+//application
 function loadApplication() {
   loadTemplate("application");
 
