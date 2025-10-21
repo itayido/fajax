@@ -9,7 +9,7 @@ function router() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const hash = location.hash.replace("#", "") || "login";
 
-  if (hash === "game" && !currentUser) {
+  if (hash === "application" && !currentUser) {
     location.hash = "login";
     return;
   }
@@ -21,8 +21,8 @@ function router() {
     case "register":
       loadRegister();
       break;
-    case "game":
-      loadGame();
+    case "application":
+      loadApplication();
       break;
     default:
       loadLogin();
@@ -52,7 +52,7 @@ function loadLogin() {
 
     if (foundUser) {
       localStorage.setItem("currentUser", JSON.stringify(foundUser));
-      location.hash = "game";
+      location.hash = "application";
     } else {
       alert("Wrong username or password");
     }
@@ -69,6 +69,11 @@ function loadRegister() {
     const password = document.getElementById("reg-password").value;
 
     if (!/^[a-zA-Z0-9]{3,}$/.test(username)) {
+      alert("Username must contain atleast 3 characters or numbers");
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9]{3,}$/.test(password)) {
       alert("Username must contain atleast 3 characters or numbers");
       return;
     }
@@ -90,29 +95,15 @@ function loadRegister() {
 }
 
 //game
-function loadGame() {
-  loadTemplate("game-template");
+function loadApplication() {
+  loadTemplate("application");
 
   let currentUser = JSON.parse(localStorage.getItem("currentUser"));
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
   const welcome = document.getElementById("welcome");
-  const scoreDisplay = document.getElementById("score-display");
 
   welcome.textContent = `Welcome, ${currentUser.username}!`;
-  scoreDisplay.textContent = `Your score: ${currentUser.score}`;
-
-  document.getElementById("add-score").addEventListener("click", () => {
-    currentUser.score += 10;
-    scoreDisplay.textContent = `Your score: ${currentUser.score}`;
-
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    const index = users.findIndex((u) => u.username === currentUser.username);
-    if (index !== -1) {
-      users[index] = currentUser;
-      localStorage.setItem("users", JSON.stringify(users));
-    }
-  });
 
   //logout
   document.getElementById("logout").addEventListener("click", () => {
