@@ -92,7 +92,7 @@ function loadRegister() {
       return;
     }
 
-    const newUser = { username, password, score: 0 };
+    const newUser = { username, password, contacts: [] };
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
