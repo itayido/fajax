@@ -112,6 +112,12 @@ function loadApplication() {
 
   welcome.textContent = `Welcome, ${currentUser.username}!`;
 
+  document.getElementById("getContacts").addEventListener("click", () => {
+    const fajax = new Fajax();
+    fajax.open("GET", "/contacts/1");
+    const res = fajax.send();
+    console.log("res", res);
+  });
   //logout
   document.getElementById("logout").addEventListener("click", () => {
     localStorage.removeItem("currentUser");

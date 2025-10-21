@@ -14,7 +14,7 @@ function getSpecificContact(id) {
   const peopleArr = JSON.parse(localStorage.getItem("users"));
   for (let j = 0; j < peopleArr.length; j++) {
     if (peopleArr[j].username === currentUser.username) {
-      return peopleArr[j].contacts[i];
+      return peopleArr[j].contacts;
     }
   }
 }

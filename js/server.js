@@ -1,4 +1,4 @@
-function action(method, url) {
+function action(method, url, payload) {
   switch (method) {
     case "GET":
       if (!url || typeof url !== "string") {
@@ -10,6 +10,10 @@ function action(method, url) {
         const id = Number(idMatch[1]);
         return getSpecificContact(id);
       }
-      return getAllContacts();
+
+      if (url.endsWith("contacts")) {
+        return getAllContacts();
+      }
+      return "Invalid URL";
   }
 }

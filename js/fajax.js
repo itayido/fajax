@@ -1,9 +1,16 @@
 class Fajax {
-  constructor(method, url) {
+  constructor() {
+    this.method = "";
+    this.payload = "";
+    this.url = "";
+    this.onload = "";
+  }
+  open(method, url) {
     this.method = method;
     this.url = url;
   }
-  send() {
-    action(this.method);
+  send(payload) {
+    this.payload = payload;
+    return action(this.method, this.url, payload);
   }
 }
