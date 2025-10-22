@@ -3,7 +3,8 @@ class Fajax {
     this.method = "";
     this.payload = "";
     this.url = "";
-    this.onload = "";
+    this.onload = function () {};
+    this.responseText = "";
   }
   open(method, url) {
     this.method = method;
@@ -11,6 +12,10 @@ class Fajax {
   }
   send(payload) {
     this.payload = payload;
-    return action(this.method, this.url, payload);
+    const obj = action(this.method, this.url, payload);
+    if (obj.status === 200) {
+      this.responseText = obj.value;
+      this.onload();
+    }
   }
 }
