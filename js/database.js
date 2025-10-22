@@ -8,15 +8,15 @@ function getAllContacts() {
   }
 }
 
-function getSpecificContact(id) {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const peopleArr = JSON.parse(localStorage.getItem("users"));
-  for (let j = 0; j < peopleArr.length; j++) {
-    if (peopleArr[j].username === currentUser.username) {
-      return peopleArr[j].contacts;
-    }
-  }
-}
+// function getSpecificContact(id) {
+//   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//   const peopleArr = JSON.parse(localStorage.getItem("users"));
+//   for (let j = 0; j < peopleArr.length; j++) {
+//     if (peopleArr[j].username === currentUser.username) {
+//       return peopleArr[j].contacts;
+//     }
+//   }
+// }
 
 function addNewContact(contactObj) {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));

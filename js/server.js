@@ -7,6 +7,18 @@ function action(method, url, payload) {
   }
   //GET
   if (method === "GET") {
+    if (url === "/login") {
+      return {
+        value: checkLogin(payload),
+        status: 200,
+      };
+    }
+    if (url === "/register") {
+      return {
+        value: register(payload),
+        status: 200,
+      };
+    }
     const idMatch = url.match(/\/(\d+)$/);
     if (idMatch) {
       const id = Number(idMatch[1]);
@@ -16,7 +28,7 @@ function action(method, url, payload) {
       };
     }
 
-    if (url.endsWith("contacts")) {
+    if (url === "/contacts") {
       return {
         value: getAllContacts(),
         status: 200,
@@ -34,7 +46,7 @@ function action(method, url, payload) {
     } else {
       return {
         value: "POST request received but payload is empty",
-        status: 500,
+        status: 204,
       };
     }
   }

@@ -13,7 +13,9 @@ class Fajax {
   }
   send(payload) {
     this.payload = payload;
-    const obj = action(this.method, this.url, payload);
+    const method = this.method;
+    const url = this.url;
+    const obj = networkRequest(method, url, payload);
     if (obj.status === 200) {
       this.status = 200;
       this.responseText = obj.value;

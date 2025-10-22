@@ -40,7 +40,6 @@ function loadLogin() {
   loadTemplate("login-template");
 
   document.getElementById("login-form").addEventListener("submit", (e) => {
-    debugger;
     e.preventDefault();
     const username = document.getElementById("login-username").value.trim();
     const password = document.getElementById("login-password").value;
