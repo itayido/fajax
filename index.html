@@ -13,7 +13,7 @@
       <h2>Login Page</h2>
       <form id="login-form">
         <label>Username:</label><br />
-        <input type="text" id="login-username" required /><br>
+        <input type="text" id="login-username" required /><br />
         <label>Password:</label><br />
         <input type="password" id="login-password" required /><br />
         <button type="submit">Login</button>
@@ -36,20 +36,35 @@
     </template>
 
     <template id="application">
-      <h2 id="welcome">Welcome to my game</h2>
-      <h3>contacts</h3>
+      <h1 id="welcome">Welcome to my game</h2>
+
+      <h2>Contact List</h2>
+      <button id="getContacts">Get Contacts</button>
       <table>
-        <tr id="name">
-          <th>Name :</th>
-        </tr>
-        <tr id="number">
-          <th>Phone number :</th>
-        </tr>
-        <tr id="email">
-          <th>Email :</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="contactsBody"></tbody>
       </table>
-      <button id="getContacts">get all contacts</button>
+
+      <h2>Add New Contact</h2>
+      <form id="contactForm">
+        <label class="contactLabel" for="contactName">Contact Name</label>
+        <input class="inputLabel" id="contactName" type="text" required />
+        <br />
+        <label class ="contactLabel" for="contactPhone">Phone Number</label>
+        <input class="inputLabel" id="contactPhone" type="text" required />
+        <br />
+        <label class="contactLabel" for="contactEmail">Email</label>
+        <input class="inputLabel" id="contactEmail" type="email" required />
+        <br />
+        <button type="button" id="addContact">Add New Contact</button>
+      </form>
+      <br>
       <button id="logout">Logout</button>
     </template>
 

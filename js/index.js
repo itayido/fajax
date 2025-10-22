@@ -112,12 +112,73 @@ function loadApplication() {
 
   welcome.textContent = `Welcome, ${currentUser.username}!`;
 
-  document.getElementById("getContacts").addEventListener("click", () => {
+  //creation of the contacts table
+  document.getElementById("getContacts").addEventListener("click", getContacts);
+
+  function getContacts() {
+    document
+      .getElementById("getContacts")
+      .removeEventListener("click", getContacts);
     const fajax = new Fajax();
-    fajax.open("GET", "/contacts/1");
-    const res = fajax.send();
-    console.log("res", res);
+    fajax.open("GET", "/contacts");
+    fajax.onload = function () {
+      if (this.status === 200) {
+        const contacts = this.responseText;
+        for (let i = 0; i < contacts.length; i++) {
+          printsAContactToTheTable(contacts[i]);
+        }
+      } else {
+        alert("an error occured");
+      }
+    };
+
+    fajax.send();
+  }
+
+  function printsAContactToTheTable(obj) {
+    const tableBody = document.getElementById("contactsBody");
+
+    const row = document.createElement("tr");
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = obj.name;
+
+    const phoneCell = document.createElement("td");
+    phoneCell.textContent = obj.phoneNumber;
+
+    const emailCell = document.createElement("td");
+    emailCell.textContent = obj.email;
+
+    row.appendChild(nameCell);
+    row.appendChild(phoneCell);
+    row.appendChild(emailCell);
+
+    tableBody.appendChild(row);
+  }
+  // add new contact
+  document.getElementById("addContact").addEventListener("click", () => {
+    const fajax = new Fajax();
+    fajax.open("POST", "/contacts");
+    fajax.onload = function () {
+      if (this.status === 200) {
+        alert("Contact added successfully");
+        document.getElementById("contactForm").reset();
+        printsAContactToTheTable(contactObj);
+      } else {
+        alert("Something went wrong");
+      }
+    };
+    const name = document.getElementById("contactName").value;
+    const phoneNumber = document.getElementById("contactPhone").value;
+    const email = document.getElementById("contactEmail").value;
+    const contactObj = {
+      name,
+      phoneNumber,
+      email,
+    };
+    fajax.send(contactObj);
   });
+
   //logout
   document.getElementById("logout").addEventListener("click", () => {
     localStorage.removeItem("currentUser");
