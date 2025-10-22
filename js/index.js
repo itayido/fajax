@@ -40,11 +40,12 @@ function loadLogin() {
   loadTemplate("login-template");
 
   document.getElementById("login-form").addEventListener("submit", (e) => {
+    debugger;
     e.preventDefault();
     const username = document.getElementById("login-username").value.trim();
     const password = document.getElementById("login-password").value;
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const users = JSON.parse(localStorage.getItem("users") || []);
 
     const foundUser = users.find(
       (u) => u.username === username && u.password === password
@@ -85,7 +86,7 @@ function loadRegister() {
       return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let users = JSON.parse(localStorage.getItem("users") || []);
 
     if (users.some((u) => u.username === username)) {
       alert("Username already exists");
@@ -106,7 +107,7 @@ function loadApplication() {
   loadTemplate("application");
 
   let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let users = JSON.parse(localStorage.getItem("users") || []);
 
   const welcome = document.getElementById("welcome");
 
@@ -159,6 +160,14 @@ function loadApplication() {
   document.getElementById("addContact").addEventListener("click", () => {
     const fajax = new Fajax();
     fajax.open("POST", "/contacts");
+    const name = document.getElementById("contactName").value;
+    const phoneNumber = document.getElementById("contactPhone").value;
+    const email = document.getElementById("contactEmail").value;
+    const contactObj = {
+      name,
+      phoneNumber,
+      email,
+    };
     fajax.onload = function () {
       if (this.status === 200) {
         alert("Contact added successfully");
@@ -167,14 +176,6 @@ function loadApplication() {
       } else {
         alert("Something went wrong");
       }
-    };
-    const name = document.getElementById("contactName").value;
-    const phoneNumber = document.getElementById("contactPhone").value;
-    const email = document.getElementById("contactEmail").value;
-    const contactObj = {
-      name,
-      phoneNumber,
-      email,
     };
     fajax.send(contactObj);
   });

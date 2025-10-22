@@ -31,14 +31,13 @@ function addNewContact(contactObj) {
   console.log("Contact added successfully");
 }
 
-// deletes a contact
-function deleteContact(id) {
-  if (id > getAllContacts().length) {
-    return "Not Found";
-  }
-  const contactsArr = getAllContacts();
-  contactsArr.splice(id - 1, 1);
-  localStorage.setItem("contactsArr", JSON.stringify(contactsArr));
-  return true;
-}
-console.log(deletePerson(3));
+// function deleteContact(id) {
+//   const contactsArr = getAllContacts();
+//   if (id > contactsArr.length) {
+//     return "Not Found";
+//   }
+//   contactsArr.splice(id - 1, 1);
+//   localStorage.setItem("contactsArr", JSON.stringify(contactsArr));
+//   return true;
+// }
+// console.log(deleteContact(2));
