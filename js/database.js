@@ -18,6 +18,39 @@ function getAllContacts() {
 //   }
 // }
 
+function checkUser(user) {
+  const users = JSON.parse(localStorage.getItem("users") || []);
+
+  const foundUser = users.find(
+    (u) => u.username === user.username && u.password === user.password
+  );
+
+  if (foundUser) {
+    localStorage.setItem("currentUser", JSON.stringify(foundUser));
+    return true;
+  }
+  return false;
+}
+
+function addUser(user) {
+  let users = JSON.parse(localStorage.getItem("users") || []);
+
+  if (users.some((u) => u.username === user.username)) {
+    return false;
+  }
+  let idNumber = users.length;
+  const newUser = {
+    username: user.username,
+    password: user.password,
+    contacts: [],
+    id: idNumber,
+  };
+  users.push(newUser);
+  localStorage.setItem("users", JSON.stringify(users));
+  idNumber++;
+  return true;
+}
+
 function addNewContact(contactObj) {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const users = JSON.parse(localStorage.getItem("users"));

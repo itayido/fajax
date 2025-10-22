@@ -16,10 +16,9 @@ class Fajax {
     const method = this.method;
     const url = this.url;
     const obj = networkRequest(method, url, payload);
-    if (obj.status === 200) {
-      this.status = 200;
-      this.responseText = obj.value;
-      this.onload();
-    }
+
+    this.status = obj.status;
+    this.responseText = obj.value;
+    this.onload();
   }
 }

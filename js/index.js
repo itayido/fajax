@@ -44,18 +44,17 @@ function loadLogin() {
     const username = document.getElementById("login-username").value.trim();
     const password = document.getElementById("login-password").value;
 
-    const users = JSON.parse(localStorage.getItem("users") || []);
+    const fajax = new Fajax();
+    fajax.open("POST", "/login");
+    fajax.onload = function () {
+      if (this.status === 200) {
+        location.hash = "application";
+      } else {
+        alert("User not found or bad credentials");
+      }
+    };
 
-    const foundUser = users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (foundUser) {
-      localStorage.setItem("currentUser", JSON.stringify(foundUser));
-      location.hash = "application";
-    } else {
-      alert("Wrong username or password");
-    }
+    fajax.send({ username: username, password: password });
   });
 }
 
@@ -85,19 +84,17 @@ function loadRegister() {
       return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users") || []);
+    const fajax = new Fajax();
+    fajax.open("POST", "/register");
+    fajax.onload = function () {
+      if (this.status === 200) {
+        location.hash = "login";
+      } else {
+        alert("Username already taken");
+      }
+    };
 
-    if (users.some((u) => u.username === username)) {
-      alert("Username already exists");
-      return;
-    }
-    let idNumber = JSON.parse(localStorage.getItem("users")).length;
-    const newUser = { username, password, contacts: [], id: idNumber };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    idNumber++;
-    alert("Registered successfully");
-    location.hash = "login";
+    fajax.send({ username: username, password: password });
   });
 }
 
@@ -106,7 +103,6 @@ function loadApplication() {
   loadTemplate("application");
 
   let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  let users = JSON.parse(localStorage.getItem("users") || []);
 
   const welcome = document.getElementById("welcome");
 

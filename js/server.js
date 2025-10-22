@@ -7,18 +7,6 @@ function action(method, url, payload) {
   }
   //GET
   if (method === "GET") {
-    if (url === "/login") {
-      return {
-        value: checkLogin(payload),
-        status: 200,
-      };
-    }
-    if (url === "/register") {
-      return {
-        value: register(payload),
-        status: 200,
-      };
-    }
     const idMatch = url.match(/\/(\d+)$/);
     if (idMatch) {
       const id = Number(idMatch[1]);
@@ -42,13 +30,27 @@ function action(method, url, payload) {
   //POST
   if (method === "POST") {
     if (payload && Object.keys(payload).length > 0) {
-      return { value: addNewContact(payload), status: 200 };
-    } else {
-      return {
-        value: "POST request received but payload is empty",
-        status: 204,
-      };
+      if (url === "/contacts") {
+        return { value: addNewContact(payload), status: 200 };
+      } else if (url === "/login") {
+        const isValid = checkUser(payload);
+        return {
+          value: isValid,
+          status: isValid ? 200 : 401,
+        };
+      } else if (url === "/register") {
+        const isExist = addUser(payload);
+        return {
+          value: isExist,
+          status: isExist ? 200 : 422,
+        };
+      }
     }
+  } else {
+    return {
+      value: "POST request received but payload is empty",
+      status: 204,
+    };
   }
   //   //DELETE
   //   if (method === "DELETE") {
