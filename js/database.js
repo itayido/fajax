@@ -14,12 +14,12 @@ function getSpecificContact(id) {
   const peopleArr = JSON.parse(localStorage.getItem("users"));
   for (let j = 0; j < peopleArr.length; j++) {
     if (peopleArr[j].username === currentUser.username) {
-      return peopleArr[j].contacts[i];
+      return peopleArr[j].contacts;
     }
   }
 }
 
-function addNewContact(name, phoneNumber, email) {
+function addNewContact(contactObj) {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const users = JSON.parse(localStorage.getItem("users"));
 
@@ -28,13 +28,9 @@ function addNewContact(name, phoneNumber, email) {
     console.error("Current user not found in users array");
     return;
   }
-
-  const newContact = {
-    name,
-    phoneNumber,
-    email,
-  };
-  users[userIndex].contacts.push(newContact);
+  idIndx = users[idIndex].contacts.length;
+  contactObj.id = idIndx++;
+  users[userIndex].contacts.push(contactObj);
   localStorage.setItem("users", JSON.stringify(users));
   console.log("Contact added successfully");
 }
@@ -52,3 +48,6 @@ function addNewContact(name, phoneNumber, email) {
 //   return "Not Found";
 // }
 // console.log(deletePerson(5));
+
+/* tonight! 21 to october!  task is to figure out how to change it so the information is stored here, in db, rather than ls localstorage
+ */

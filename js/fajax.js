@@ -4,6 +4,6 @@ class Fajax {
     this.url = url;
   }
   send() {
-    action(this.method);
+    action(this.method, this.url);
   }
 }
