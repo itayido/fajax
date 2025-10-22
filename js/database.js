@@ -61,7 +61,6 @@ function addNewContact(contactObj) {
   contactObj.id = idIndx++;
   users[userIndex].contacts.push(contactObj);
   localStorage.setItem("users", JSON.stringify(users));
-  console.log("Contact added successfully");
 }
 
 // function deleteContact(id) {

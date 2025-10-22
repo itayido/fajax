@@ -45,7 +45,7 @@ function loadLogin() {
     const password = document.getElementById("login-password").value;
 
     const fajax = new Fajax();
-    fajax.open("POST", "/login");
+    fajax.open("POST", "users/login");
     fajax.onload = function () {
       if (this.status === 200) {
         location.hash = "application";
@@ -85,12 +85,12 @@ function loadRegister() {
     }
 
     const fajax = new Fajax();
-    fajax.open("POST", "/register");
+    fajax.open("POST", "users/register");
     fajax.onload = function () {
       if (this.status === 200) {
         location.hash = "login";
       } else {
-        alert("Username already taken");
+        alert(this.responseText + "\n username already exists");
       }
     };
 
@@ -116,7 +116,7 @@ function loadApplication() {
       .getElementById("getContacts")
       .removeEventListener("click", getContacts);
     const fajax = new Fajax();
-    fajax.open("GET", "/contacts");
+    fajax.open("GET", "users/contacts");
     fajax.onload = function () {
       if (this.status === 200) {
         const contacts = this.responseText;
@@ -124,7 +124,7 @@ function loadApplication() {
           printsAContactToTheTable(contacts[i]);
         }
       } else {
-        alert("an error occured");
+        alert(this.responseText);
       }
     };
 
@@ -151,10 +151,10 @@ function loadApplication() {
 
     tableBody.appendChild(row);
   }
-  // add new contact
-  document.getElementById("addContact").addEventListener("click", () => {
+  // add new contact to table
+  document.getElementById("contactForm").addEventListener("submit", () => {
     const fajax = new Fajax();
-    fajax.open("POST", "/contacts");
+    fajax.open("POST", "users/contacts");
     const name = document.getElementById("contactName").value;
     const phoneNumber = document.getElementById("contactPhone").value;
     const email = document.getElementById("contactEmail").value;
@@ -165,11 +165,10 @@ function loadApplication() {
     };
     fajax.onload = function () {
       if (this.status === 200) {
-        alert("Contact added successfully");
         document.getElementById("contactForm").reset();
         printsAContactToTheTable(contactObj);
       } else {
-        alert("Something went wrong");
+        alert("User doesn't exist");
       }
     };
     fajax.send(contactObj);

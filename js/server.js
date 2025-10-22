@@ -16,7 +16,7 @@ function action(method, url, payload) {
       };
     }
 
-    if (url === "/contacts") {
+    if (url === "users/contacts") {
       return {
         value: getAllContacts(),
         status: 200,
@@ -30,15 +30,15 @@ function action(method, url, payload) {
   //POST
   if (method === "POST") {
     if (payload && Object.keys(payload).length > 0) {
-      if (url === "/contacts") {
+      if (url === "users/contacts") {
         return { value: addNewContact(payload), status: 200 };
-      } else if (url === "/login") {
+      } else if (url === "users/login") {
         const isValid = checkUser(payload);
         return {
           value: isValid,
           status: isValid ? 200 : 401,
         };
-      } else if (url === "/register") {
+      } else if (url === "users/register") {
         const isExist = addUser(payload);
         return {
           value: isExist,
