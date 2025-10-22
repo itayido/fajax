@@ -1,15 +1,31 @@
-function action(method, url) {
+function action(method, url, payload) {
   switch (method) {
     case "GET":
       if (!url || typeof url !== "string") {
-        console.error("Invalid URL");
-        return;
+        return {
+          value: "Invalid URL",
+          status: 500,
+        };
       }
-      if (typeof url.charAt(url.length - 1)) {
-        //the url end with a number
-        getSpecificContact();
+
+      const idMatch = url.match(/\/(\d+)$/);
+      if (idMatch) {
+        const id = Number(idMatch[1]);
+        return {
+          value: getSpecificContact(id),
+          status: 200,
+        };
       }
-      getAllContacts();
-      break;
+
+      if (url.endsWith("contacts")) {
+        return {
+          value: getAllContacts(),
+          status: 200,
+        };
+      }
+      return {
+        value: "Invalid URL",
+        status: 500,
+      };
   }
 }
