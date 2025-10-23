@@ -67,4 +67,9 @@ function action(method, url, payload) {
     }
     return { value: "No ID provided in URL for DELETE", status: 400 };
   }
+
+  return {
+    value: "method not supported",
+    status: 500,
+  };
 }

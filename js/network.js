@@ -1,4 +1,5 @@
-function networkRequest(method, url, payload) {
+function networkRequestResponse(method, url, payload) {
+  //setTimeout(() => {
   //checks if the server address is correct
   if (!/^users\//.test(url)) {
     return {
@@ -7,10 +8,9 @@ function networkRequest(method, url, payload) {
     };
   }
 
-  // setimeout
-
   //checks if the request took too long
   if (Math.random() < 0.1) return { value: "request timed out", status: 408 };
 
   return action(method, url, payload);
+  //}, 1000);
 }

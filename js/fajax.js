@@ -15,7 +15,7 @@ class Fajax {
     this.payload = payload;
     const method = this.method;
     const url = this.url;
-    const obj = networkRequest(method, url, payload);
+    const obj = networkRequestResponse(method, url, payload);
 
     this.status = obj.status;
     this.responseText = obj.value;

@@ -1,3 +1,4 @@
+//table of contacts
 function getAllContacts() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const peopleArr = JSON.parse(localStorage.getItem("users"));
@@ -8,6 +9,7 @@ function getAllContacts() {
   }
 }
 
+//login
 function checkUser(user) {
   const users = JSON.parse(localStorage.getItem("users") || []);
 
@@ -22,6 +24,7 @@ function checkUser(user) {
   return false;
 }
 
+//register
 function addUser(user) {
   const users = JSON.parse(localStorage.getItem("users") || []);
 

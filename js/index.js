@@ -146,9 +146,13 @@ function loadApplication() {
     const emailCell = document.createElement("td");
     emailCell.textContent = obj.email;
 
+    const idCell = document.createElement("td");
+    idCell.textContent = obj.id;
+
     row.appendChild(nameCell);
     row.appendChild(phoneCell);
     row.appendChild(emailCell);
+    row.appendChild(idCell);
 
     tableBody.appendChild(row);
   }
