@@ -50,7 +50,7 @@ function loadLogin() {
       if (this.status === 200) {
         location.hash = "application";
       } else {
-        alert("User not found or bad credentials");
+        console.error("User not found or bad credentials");
       }
     };
 
@@ -71,16 +71,16 @@ function loadRegister() {
     ).value;
 
     if (password !== confirmPassword) {
-      alert("password and confirm password aren't identical");
+      console.error("password and confirm password aren't identical");
       return;
     }
     if (!/^[a-zA-Z0-9]{3,}$/.test(username)) {
-      alert("Username must contain atleast 3 characters or numbers");
+      console.error("Username must contain atleast 3 characters or numbers");
       return;
     }
 
     if (!/^[a-zA-Z0-9]{3,}$/.test(password)) {
-      alert("Username must contain atleast 3 characters or numbers");
+      console.error("Username must contain atleast 3 characters or numbers");
       return;
     }
 
@@ -90,7 +90,7 @@ function loadRegister() {
       if (this.status === 200) {
         location.hash = "login";
       } else {
-        alert(this.responseText + "\n username already exists");
+        console.error(this.responseText + "\n username already exists");
       }
     };
 
@@ -108,7 +108,7 @@ function loadApplication() {
 
   welcome.textContent = `Welcome, ${currentUser.username}!`;
 
-  //creation of the contacts table
+  //creation of the contacts table filled
   document.getElementById("getContacts").addEventListener("click", getContacts);
 
   function getContacts() {
@@ -124,7 +124,8 @@ function loadApplication() {
           printsAContactToTheTable(contacts[i]);
         }
       } else {
-        alert(this.responseText);
+        console.error(this.responseText);
+        alert("refresh the page");
       }
     };
 
@@ -152,7 +153,11 @@ function loadApplication() {
     tableBody.appendChild(row);
   }
   // add new contact to table
-  document.getElementById("contactForm").addEventListener("submit", () => {
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", addNewContact);
+
+  function addNewContact() {
     const fajax = new Fajax();
     fajax.open("POST", "users/contacts");
     const name = document.getElementById("contactName").value;
@@ -168,13 +173,34 @@ function loadApplication() {
         document.getElementById("contactForm").reset();
         printsAContactToTheTable(contactObj);
       } else {
-        alert("User doesn't exist");
+        console.error("User doesn't exist");
       }
     };
     fajax.send(contactObj);
-  });
+  }
+
+  //delete a contact from the table
+  document
+    .getElementById("deletedForm")
+    .addEventListener("submit", (e) => deleteContact(e));
+
+  function deleteContact(event) {
+    event.preventDefault();
+    const idToDelete = document.getElementById("deleteContact").value;
+    const fajax = new Fajax();
+    fajax.open("DELETE", `users/contacts/${idToDelete}`);
+    fajax.onload = function () {
+      if (this.status === 200) {
+        document.getElementById("deletedForm").reset();
+      } else {
+        console.error("user to be deleted not found");
+      }
+    };
+    fajax.send();
+  }
 
   //logout
+
   document.getElementById("logout").addEventListener("click", () => {
     localStorage.removeItem("currentUser");
     location.hash = "login";

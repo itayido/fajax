@@ -8,16 +8,6 @@ function getAllContacts() {
   }
 }
 
-// function getSpecificContact(id) {
-//   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-//   const peopleArr = JSON.parse(localStorage.getItem("users"));
-//   for (let j = 0; j < peopleArr.length; j++) {
-//     if (peopleArr[j].username === currentUser.username) {
-//       return peopleArr[j].contacts;
-//     }
-//   }
-// }
-
 function checkUser(user) {
   const users = JSON.parse(localStorage.getItem("users") || []);
 
@@ -33,7 +23,7 @@ function checkUser(user) {
 }
 
 function addUser(user) {
-  let users = JSON.parse(localStorage.getItem("users") || []);
+  const users = JSON.parse(localStorage.getItem("users") || []);
 
   if (users.some((u) => u.username === user.username)) {
     return false;
@@ -63,13 +53,25 @@ function addNewContact(contactObj) {
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-// function deleteContact(id) {
-//   const contactsArr = getAllContacts();
-//   if (id > contactsArr.length) {
-//     return "Not Found";
-//   }
-//   contactsArr.splice(id - 1, 1);
-//   localStorage.setItem("contactsArr", JSON.stringify(contactsArr));
-//   return true;
-// }
-// console.log(deleteContact(2));
+function deleteContactByIdForCurrentUser(contactId) {
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const userIndex = users.findIndex((u) => u.username === currentUser.username);
+
+  const contactIndex = users[userIndex].contacts.findIndex(
+    (c) => c.id === contactId
+  );
+  if (contactIndex === -1) {
+    return false;
+  }
+
+  users[userIndex].contacts.splice(contactIndex, 1);
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  currentUser.contacts = users[userIndex].contacts;
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+  return true;
+}

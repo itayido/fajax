@@ -5,6 +5,7 @@ function action(method, url, payload) {
       status: 500,
     };
   }
+
   //GET
   if (method === "GET") {
     const idMatch = url.match(/\/(\d+)$/);
@@ -29,7 +30,12 @@ function action(method, url, payload) {
   }
   //POST
   if (method === "POST") {
-    if (payload && Object.keys(payload).length > 0) {
+    if (payload && Object.keys(payload).length < 1) {
+      return {
+        value: "POST request received but payload is empty",
+        status: 204,
+      };
+    } else {
       if (url === "users/contacts") {
         return { value: addNewContact(payload), status: 200 };
       } else if (url === "users/login") {
@@ -46,28 +52,19 @@ function action(method, url, payload) {
         };
       }
     }
-  } else {
-    return {
-      value: "POST request received but payload is empty",
-      status: 204,
-    };
   }
-  //   //DELETE
-  //   if (method === "DELETE") {
-  //     const idMatch = url.match(/\/(\d+)$/);
-  //     if (idMatch) {
-  //       const id = Number(idMatch[1]);
-
-  //       if (id) {
-  //         const deleted = deleteContact(id);
-  //         if (deleted) {
-  //           return { value: `Contact with id ${id} deleted`, status: 200 };
-  //         } else {
-  //           return { value: `Contact with id ${id} not found`, status: 404 };
-  //         }
-  //       } else {
-  //         return { value: "No ID provided in URL for DELETE", status: 400 };
-  //       }
-  //     }
-  //   }
+  //DELETE
+  if (method === "DELETE") {
+    const idMatchNumber = url.split("/").pop();
+    const idMatch = url.match(/users\/contacts\/(\d+)$/);
+    if (idMatch) {
+      const id = Number(idMatch[1]);
+      const deleted = deleteContactByIdForCurrentUser(id);
+      return {
+        value: deleted,
+        status: deleted ? 200 : 401,
+      };
+    }
+    return { value: "No ID provided in URL for DELETE", status: 400 };
+  }
 }

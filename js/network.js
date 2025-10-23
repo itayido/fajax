@@ -6,8 +6,11 @@ function networkRequest(method, url, payload) {
       status: 404,
     };
   }
+
+  // setimeout
+
   //checks if the request took too long
-  if (Math.random() > 0.2) return { value: "request timed out", status: 408 };
+  if (Math.random() < 0.1) return { value: "request timed out", status: 408 };
 
   return action(method, url, payload);
 }
